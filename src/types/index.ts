@@ -99,6 +99,147 @@ export interface ProceduralMemory {
   last_used: Date;
 }
 
+// Orchestration System Types
+export type OrchestrationMode = 'symphony' | 'orchestra';
+
+export type AgentType = 
+  | 'frontend-architect'
+  | 'backend-engineer'
+  | 'database-designer'
+  | 'devops-specialist'
+  | 'security-auditor'
+  | 'performance-optimizer'
+  | 'documentation-writer'
+  | 'testing-specialist'
+  | 'ui-ux-designer'
+  | 'api-designer';
+
+export interface SpecializedAgent {
+  id: string;
+  type: AgentType;
+  name: string;
+  model: string;
+  status: AgentStatus;
+  contextUsage: number;
+  maxContext: number;
+  capabilities: string[];
+  currentTask?: Task;
+  createdAt: Date;
+  lastActive: Date;
+}
+
+export interface Task {
+  id: string;
+  type: AgentType;
+  title: string;
+  description: string;
+  requirements: any;
+  priority: 'low' | 'normal' | 'high' | 'critical';
+  estimatedTime: number;
+  dependencies: string[];
+  files: string[];
+  status: 'pending' | 'assigned' | 'in-progress' | 'completed' | 'failed';
+  assignedAgent?: string;
+  progress: number;
+  createdAt: Date;
+  startedAt?: Date;
+  completedAt?: Date;
+}
+
+export interface BuildPlan {
+  id: string;
+  projectType: string;
+  requirements: string;
+  tasks: Task[];
+  dependencies: TaskDependency[];
+  estimatedDuration: number;
+  parallelizable: boolean;
+  createdAt: Date;
+}
+
+export interface TaskDependency {
+  from: string;
+  to: string;
+  type: 'sequence' | 'blocking' | 'optional';
+}
+
+export interface Assignment {
+  agentType: AgentType;
+  task: Task;
+  priority: 'normal' | 'critical';
+  parallelWorkers: number;
+}
+
+export interface FileDependencyGraph {
+  files: Map<string, string[]>;
+  getCriticalPath(): Task[];
+  getParallelizableTasks(): Task[][];
+}
+
+export interface FileState {
+  path: string;
+  content: string;
+  lastModified: Date;
+  lockedBy?: string;
+  version: number;
+}
+
+export interface FileOperation {
+  type: 'create' | 'update' | 'delete';
+  filePath: string;
+  startLine?: number;
+  endLine?: number;
+  content: string;
+  agentId: string;
+  timestamp: Date;
+}
+
+export interface Conflict {
+  type: 'overlapping-edit' | 'concurrent-modification' | 'dependency-violation';
+  operations: FileOperation[];
+  severity: 'low' | 'medium' | 'high';
+  resolution?: string;
+}
+
+export interface AgentState {
+  contextWindow: any;
+  memory: any;
+  lastCheckpoint: any;
+  workingFiles: string[];
+  completedTasks: string[];
+}
+
+export interface ComponentRequirements {
+  name: string;
+  type: string;
+  framework: string;
+  features: string[];
+  styling: string;
+  dependencies: string[];
+  outputPath: string;
+}
+
+export interface OrchestrationMetrics {
+  activeAgents: number;
+  tasksCompleted: number;
+  tasksInProgress: number;
+  tasksPending: number;
+  filesPerMinute: number;
+  linesOfCode: number;
+  parallelOps: number;
+  averageTaskTime: number;
+  successRate: number;
+  trend: 'up' | 'down' | 'stable';
+  fileProgress: FileProgress[];
+}
+
+export interface FileProgress {
+  path: string;
+  progress: number;
+  assignedAgent: string;
+  estimatedCompletion: Date;
+}
+
 export interface Project {
   id: string;
   name: string;
