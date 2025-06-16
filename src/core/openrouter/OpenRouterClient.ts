@@ -9,12 +9,39 @@ export class OpenRouterClient {
   private clients: Map<string, OpenAI> = new Map();
   private readonly BASE_URL = 'https://openrouter.ai/api/v1';
   private readonly supportedModels = [
-    'anthropic/claude-3.5-sonnet',
-    'mistralai/mistral-large',
-    'meta-llama/llama-3.1-405b',
-    'meta-llama/llama-3.1-70b', 
+    // Latest Claude models
+    'anthropic/claude-3.5-sonnet-20241022',
+    'anthropic/claude-3.5-haiku',
+    'anthropic/claude-3-opus',
+    
+    // Latest OpenAI models
+    'openai/gpt-4o',
+    'openai/gpt-4o-mini',
     'openai/gpt-4-turbo',
-    'google/gemini-pro-1.5'
+    'openai/o1-preview',
+    'openai/o1-mini',
+    
+    // Latest Llama models
+    'meta-llama/llama-3.2-90b-vision-instruct',
+    'meta-llama/llama-3.2-11b-vision-instruct',
+    'meta-llama/llama-3.1-405b-instruct',
+    'meta-llama/llama-3.1-70b-instruct',
+    'meta-llama/llama-3.1-8b-instruct',
+    
+    // Latest Mistral models
+    'mistralai/mistral-large-2407',
+    'mistralai/codestral-mamba',
+    'mistralai/mistral-nemo',
+    
+    // Google models
+    'google/gemini-pro-1.5-exp',
+    'google/gemini-flash-1.5',
+    
+    // Other powerful models
+    'anthropic/claude-3.5-sonnet', // Keep legacy for compatibility
+    'qwen/qwen-2.5-72b-instruct',
+    'deepseek/deepseek-chat',
+    'x-ai/grok-beta'
   ];
 
   constructor(private apiKey: string) {

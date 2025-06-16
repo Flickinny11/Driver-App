@@ -138,7 +138,7 @@ export const useAppStore = create<AppState>()(
         activeConversation: null,
         conversations: [],
 
-        selectedModel: 'anthropic/claude-3.5-sonnet',
+        selectedModel: 'anthropic/claude-3.5-sonnet-20241022',
         availableModels: [],
         modelStatus: new Map(),
 
