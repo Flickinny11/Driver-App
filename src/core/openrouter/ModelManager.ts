@@ -125,6 +125,72 @@ export class ModelManager {
   }
 
   /**
+   * Get the best model for Symphony mode (10-15 agents)
+   * Optimized for balanced performance and coordination
+   */
+  getBestModelForSymphony(): string {
+    // For Symphony mode, prioritize models good at reasoning and coordination
+    const symphonyModels = [
+      'anthropic/claude-3.5-sonnet-20241022', // Best for complex reasoning and coordination
+      'openai/gpt-4o', // Excellent general purpose with fast performance  
+      'openai/o1-mini' // Good reasoning with cost efficiency
+    ];
+    
+    // Return first available model optimized for symphony
+    for (const model of symphonyModels) {
+      if (this.client.isModelSupported(model)) {
+        return model;
+      }
+    }
+    
+    return 'anthropic/claude-3.5-sonnet-20241022'; // Default fallback
+  }
+
+  /**
+   * Get the best model for Orchestra mode (20-30 agents) 
+   * Optimized for large-scale coordination and complex reasoning
+   */
+  getBestModelForOrchestra(): string {
+    // For Orchestra mode, prioritize models with superior reasoning for complex coordination
+    const orchestraModels = [
+      'openai/o1-preview', // Best reasoning model for complex coordination
+      'meta-llama/llama-3.1-405b-instruct', // Large model for complex orchestration
+      'anthropic/claude-3.5-sonnet-20241022', // Excellent reasoning backup
+      'google/gemini-pro-1.5-exp' // Massive context for complex coordination
+    ];
+    
+    // Return first available model optimized for orchestra
+    for (const model of orchestraModels) {
+      if (this.client.isModelSupported(model)) {
+        return model;
+      }
+    }
+    
+    return 'openai/o1-preview'; // Default fallback
+  }
+
+  /**
+   * Get the best current model for general tasks
+   */
+  getBestCurrentModel(): string {
+    // Return the most current and capable model available
+    const currentModels = [
+      'openai/gpt-4o', // Latest general purpose model
+      'anthropic/claude-3.5-sonnet-20241022', // Latest Claude
+      'openai/o1-preview', // Latest reasoning model
+      'meta-llama/llama-3.2-90b-vision-instruct' // Latest multimodal
+    ];
+    
+    for (const model of currentModels) {
+      if (this.client.isModelSupported(model)) {
+        return model;
+      }
+    }
+    
+    return 'openai/gpt-4o'; // Default fallback
+  }
+
+  /**
    * Get the best model for a specific task type
    */
   getBestModelForTask(taskType: TaskType, preferences?: ModelPreferences): string {

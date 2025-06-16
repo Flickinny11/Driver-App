@@ -40,7 +40,7 @@ class TestingAgent extends AgentWorkerBase {
 
   private async generateTestCode(task: Task): Promise<string> {
     const response = await this.callOpenRouter({
-      model: 'openai/gpt-4-turbo',
+      model: 'openai/gpt-4o', // Updated to current model for testing specialist
       messages: [{
         role: 'system',
         content: `You are a Testing Specialist. Generate comprehensive test suites.

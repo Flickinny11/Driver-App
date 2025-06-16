@@ -32,6 +32,65 @@ export class OrchestraConductor extends ConductorAgent {
   }
 
   /**
+   * Override analyzeProject to use Orchestra-optimized models
+   */
+  async analyzeProject(requirements: string): Promise<BuildPlan> {
+    if (!this.openRouterClient) {
+      throw new Error('OpenRouter client not initialized');
+    }
+
+    console.log('🎺 Orchestra Conductor analyzing project requirements...');
+
+    // Use the best model optimized for Orchestra mode (complex coordination)
+    const orchestraModel = this.modelManager?.getBestModelForOrchestra() || 'openai/o1-preview';
+
+    const response = await this.openRouterClient.getCompletionWithUsage({
+      model: orchestraModel,
+      messages: [{
+        role: 'system',
+        content: `You are the master conductor for an Orchestra of 20-30 AI agents. 
+                  Analyze these requirements and create a comprehensive build plan optimized for large-scale coordination.
+                  Break down into parallel tasks for specialized agents with advanced file coordination.
+                  
+                  IMPORTANT: Plan for REAL implementation with complex multi-file coordination.
+                  
+                  Return a JSON object with this structure:
+                  {
+                    "projectType": "string",
+                    "tasks": [
+                      {
+                        "type": "frontend-architect|backend-engineer|database-designer|devops-specialist|security-auditor|performance-optimizer|documentation-writer|testing-specialist|ui-ux-designer|api-designer",
+                        "title": "string",
+                        "description": "string", 
+                        "requirements": {},
+                        "priority": "low|normal|high|critical",
+                        "estimatedTime": number_in_minutes,
+                        "dependencies": ["task_ids"],
+                        "files": ["file_paths"]
+                      }
+                    ],
+                    "estimatedDuration": number_in_minutes,
+                    "parallelizable": boolean
+                  }`
+      }, {
+        role: 'user',
+        content: requirements
+      }],
+      temperature: 0.7,
+      max_tokens: 4000
+    });
+
+    try {
+      const plan = JSON.parse(response.content);
+      console.log('🎺 Orchestra build plan created successfully');
+      return plan;
+    } catch (error) {
+      console.warn('Failed to parse Orchestra plan JSON, using fallback:', error);
+      return this.createFallbackPlan(requirements);
+    }
+  }
+
+  /**
    * Orchestrate a project with enhanced coordination
    */
   async orchestrateProject(requirements: string): Promise<void> {
