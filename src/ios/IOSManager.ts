@@ -115,13 +115,16 @@ export class IOSManager {
 
       // Step 3: Build Xcode project
       onProgress('Building Xcode project...', 40);
-      const project = await this.projectBuilder.buildXcodeProject(app, signingInfo);
+      const project = await this.projectBuilder.buildIOSApp(app, {
+        signingIdentity: signingInfo.certificate.id,
+        provisioningProfile: signingInfo.profile.id
+      });
 
       // Step 4: Sign the app
       onProgress('Signing app...', 65);
       const signedApp = await this.cloudSigner.signApp(
         project,
-        certificate,
+        signingInfo.certificate,
         signingInfo.profile
       );
 
