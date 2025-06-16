@@ -292,6 +292,7 @@ export interface MessageMetadata {
   latency?: number;
   tools_used?: string[];
   confidence?: number;
+  attachments?: string[];
 }
 
 export interface Conversation {
@@ -678,4 +679,52 @@ export interface PreviewError {
   line?: number;
   column?: number;
   stack?: string;
+}
+
+// Android signing types
+export interface AndroidKeystore {
+  path: string;
+  alias: string;
+  password: string;
+  storePassword: string;
+  keyPath?: string;
+}
+
+export interface GooglePlayAccount {
+  id: string;
+  email: string;
+  hasPlayConsole: boolean;
+  connectedAt: Date;
+}
+
+// Payment system types
+export interface PricingPlan {
+  id: string;
+  name: string;
+  price: number;
+  operations: number;
+  features: string[];
+}
+
+export interface UsageStats {
+  operationsUsed: number;
+  projectCount: number;
+  teamMembers: number;
+  totalCost: number;
+}
+
+export interface Subscription {
+  id: string;
+  plan: string;
+  operations: number;
+  status: 'active' | 'cancelled' | 'expired';
+  currentPeriodEnd: Date;
+  cancelAtPeriodEnd: boolean;
+}
+
+export interface AIOperation {
+  type: string;
+  model: string;
+  tokens: number;
+  subscriptionItemId: string;
 }

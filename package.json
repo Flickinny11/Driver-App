@@ -12,6 +12,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@stripe/stripe-js": "^7.3.1",
     "@types/three": "^0.177.0",
     "adm-zip": "^0.5.16",
     "clsx": "^2.0.0",
@@ -32,6 +33,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.20.1",
     "socket.io-client": "^4.7.4",
+    "stripe": "^18.2.1",
     "tailwind-merge": "^2.0.0",
     "three": "^0.177.0",
     "zustand": "^4.4.7"
