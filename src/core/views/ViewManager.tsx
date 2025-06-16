@@ -12,6 +12,7 @@ const KnowledgeView = lazy(() => import('@/views/Knowledge'));
 const VisionView = lazy(() => import('@/views/Vision'));
 const MultiPanelView = lazy(() => import('@/views/MultiPanel'));
 const OrchestraView = lazy(() => import('@/views/Orchestra'));
+const LivePreviewView = lazy(() => import('@/views/LivePreview'));
 
 /**
  * Manages view routing and lazy loading
@@ -31,6 +32,7 @@ export const ViewManager = () => {
             <Route path="/vision" element={<VisionView />} />
             <Route path="/builder" element={<MultiPanelView />} />
             <Route path="/orchestra" element={<OrchestraView />} />
+            <Route path="/preview" element={<LivePreviewView />} />
           </Routes>
         </Suspense>
       </main>
