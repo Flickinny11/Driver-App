@@ -292,6 +292,7 @@ export interface MessageMetadata {
   latency?: number;
   tools_used?: string[];
   confidence?: number;
+  attachments?: string[];
 }
 
 export interface Conversation {
