@@ -622,7 +622,7 @@ export interface CreatedApp {
   url: string;
   icon: string;
   size: number;
-  files: number;
+  files: FileMap; // Real app files, not just a count
   category: 'web' | 'mobile' | 'game' | 'tool';
   buildProgress: number;
   version: string;

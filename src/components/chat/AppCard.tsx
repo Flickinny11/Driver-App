@@ -80,7 +80,7 @@ export const AppCard: React.FC<AppCardProps> = ({ app }) => {
         <div className="flex-1">
           <h3 className="text-lg font-semibold text-white">{app.name}</h3>
           <p className="text-sm text-gray-400 mt-1">
-            {app.files} files • {formatBytes(app.size)} • v{app.version}
+            {Object.keys(app.files || {}).length} files • {formatBytes(app.size)} • v{app.version}
           </p>
           
           {/* Action Buttons */}
