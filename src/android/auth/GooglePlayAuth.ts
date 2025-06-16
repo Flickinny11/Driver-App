@@ -199,6 +199,7 @@ export class GooglePlayAuth {
       const keystorePath = `/tmp/driver-${Date.now()}.keystore`;
       const alias = 'driver-key';
       const password = this.generateSecurePassword();
+      const storePassword = this.generateSecurePassword();
       
       // Generate REAL keystore using keytool
       const command = `keytool -genkeypair \
@@ -207,7 +208,7 @@ export class GooglePlayAuth {
         -keyalg RSA \
         -keysize 2048 \
         -validity 10000 \
-        -storepass "${password}" \
+        -storepass "${storePassword}" \
         -keypass "${password}" \
         -dname "CN=Driver Platform, OU=Mobile Apps, O=Driver, L=San Francisco, ST=CA, C=US"`;
 
@@ -221,9 +222,11 @@ export class GooglePlayAuth {
       await fs.unlink(keystorePath);
 
       const keystore: AndroidKeystore = {
+        path: keystorePath,
         buffer: keystoreBuffer,
         alias,
         password,
+        storePassword: storePassword,
         type: 'release',
         createdAt: new Date(),
         expiresAt: new Date(Date.now() + (10000 * 24 * 60 * 60 * 1000)) // 10000 days
@@ -345,9 +348,11 @@ export class GooglePlayAuth {
       await fs.unlink(keystorePath);
 
       return {
+        path: keystorePath,
         buffer: keystoreBuffer,
         alias,
         password,
+        storePassword: password,
         type: 'debug',
         createdAt: new Date(),
         expiresAt: new Date(Date.now() + (10000 * 24 * 60 * 60 * 1000))
@@ -471,12 +476,14 @@ export interface GooglePlayAccount {
 }
 
 export interface AndroidKeystore {
-  buffer: Buffer;
+  path: string;
   alias: string;
   password: string;
-  type: 'debug' | 'release';
-  createdAt: Date;
-  expiresAt: Date;
+  storePassword: string;
+  buffer?: Buffer;
+  type?: 'debug' | 'release';
+  createdAt?: Date;
+  expiresAt?: Date;
 }
 
 export interface PlayConsoleUpload {
