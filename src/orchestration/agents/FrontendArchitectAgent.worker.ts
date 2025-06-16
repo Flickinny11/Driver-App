@@ -89,7 +89,7 @@ class FrontendArchitectAgent extends AgentWorkerBase {
     const prompt = this.buildComponentPrompt(req);
     
     const response = await this.callOpenRouter({
-      model: 'anthropic/claude-3.5-sonnet',
+      model: 'anthropic/claude-3.5-sonnet-20241022',
       messages: [{
         role: 'system',
         content: `You are a Frontend Architect specializing in ${req.framework || 'React'}.
@@ -215,7 +215,7 @@ ${code}
 Return the corrected code with all issues resolved. The code must be production-ready.`;
 
     const response = await this.callOpenRouter({
-      model: 'anthropic/claude-3.5-sonnet',
+      model: 'anthropic/claude-3.5-sonnet-20241022',
       messages: [{
         role: 'system',
         content: 'You are a code reviewer fixing issues in React components. Return only the corrected code.'

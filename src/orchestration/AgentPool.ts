@@ -84,18 +84,18 @@ export class AgentPool {
    * Get the default model for an agent type
    */
   private getDefaultModel(type: AgentType): string {
-    // Use different models based on agent specialization
+    // Use current 2025 models based on agent specialization
     const modelMap = {
-      'frontend-architect': 'anthropic/claude-3.5-sonnet',
-      'backend-engineer': 'anthropic/claude-3.5-sonnet',
-      'database-designer': 'openai/gpt-4-turbo',
-      'devops-specialist': 'mistralai/mistral-large',
-      'security-auditor': 'anthropic/claude-3.5-sonnet',
-      'performance-optimizer': 'openai/gpt-4-turbo',
-      'documentation-writer': 'anthropic/claude-3.5-sonnet',
-      'testing-specialist': 'openai/gpt-4-turbo',
-      'ui-ux-designer': 'anthropic/claude-3.5-sonnet',
-      'api-designer': 'openai/gpt-4-turbo'
+      'frontend-architect': 'anthropic/claude-3.5-sonnet-20241022', // Best for complex reasoning and code
+      'backend-engineer': 'openai/gpt-4o', // Excellent for general code and API design
+      'database-designer': 'openai/o1-preview', // Superior reasoning for data architecture
+      'devops-specialist': 'mistralai/mistral-large-2407', // Fast and efficient for automation
+      'security-auditor': 'anthropic/claude-3.5-sonnet-20241022', // Best analysis capabilities
+      'performance-optimizer': 'openai/o1-mini', // Fast reasoning for optimization
+      'documentation-writer': 'anthropic/claude-3.5-sonnet-20241022', // Superior writing capabilities
+      'testing-specialist': 'openai/gpt-4o', // Excellent for test generation
+      'ui-ux-designer': 'meta-llama/llama-3.2-90b-vision-instruct', // Multimodal for visual design
+      'api-designer': 'openai/gpt-4o' // Great for API design and documentation
     };
     return modelMap[type];
   }

@@ -2,6 +2,7 @@ import { AgentPool } from '../AgentPool';
 import { TaskQueue } from '../TaskQueue';
 import { SharedMemoryBridge } from '../memory/SharedMemoryBridge';
 import { OpenRouterClient } from '@/core/openrouter/OpenRouterClient';
+import { ModelManager } from '@/core/openrouter/ModelManager';
 import type { 
   BuildPlan, 
   Task, 
@@ -20,6 +21,7 @@ export class ConductorAgent {
   protected taskQueue: TaskQueue;
   protected memoryBridge: SharedMemoryBridge;
   protected openRouterClient?: OpenRouterClient;
+  protected modelManager?: ModelManager;
   protected activeAgents: Map<string, SpecializedAgent> = new Map();
   protected agentStates: Map<string, AgentState> = new Map();
 
@@ -32,6 +34,7 @@ export class ConductorAgent {
     
     if (apiKey) {
       this.openRouterClient = new OpenRouterClient(apiKey);
+      this.modelManager = new ModelManager(apiKey);
     }
   }
 
@@ -45,8 +48,11 @@ export class ConductorAgent {
 
     console.log('🎼 Symphony Conductor analyzing project requirements...');
 
+    // Use the best model optimized for Symphony mode
+    const symphonyModel = this.modelManager?.getBestModelForSymphony() || 'anthropic/claude-3.5-sonnet-20241022';
+
     const response = await this.openRouterClient.getCompletionWithUsage({
-      model: 'anthropic/claude-3.5-sonnet',
+      model: symphonyModel,
       messages: [{
         role: 'system',
         content: `You are the master conductor for a Symphony of AI agents. 

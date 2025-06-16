@@ -55,14 +55,21 @@ export class UsageTracker {
    * Calculate REAL costs based on actual model pricing
    */
   private calculateActualCost(model: string, tokens: number): number {
-    // REAL model costs from OpenRouter/OpenAI/Anthropic APIs
+    // REAL model costs from OpenRouter/OpenAI/Anthropic APIs (2025 current pricing)
     const realModelCosts: Record<string, number> = {
-      'anthropic/claude-3.5-sonnet': 0.003, // Real Anthropic pricing
-      'mistralai/mistral-large': 0.002,      // Real Mistral pricing  
-      'meta-llama/llama-4-maverick': 0.001,  // Real Meta pricing
-      'openai/gpt-4-turbo': 0.01,            // Real OpenAI pricing
-      'openai/gpt-4': 0.03,                  // Real OpenAI pricing
-      'openai/gpt-3.5-turbo': 0.0015        // Real OpenAI pricing
+      'anthropic/claude-3.5-sonnet-20241022': 0.003, // Current Claude pricing
+      'openai/gpt-4o': 0.005,                        // Current GPT-4o pricing
+      'openai/o1-preview': 0.015,                    // o1-preview pricing
+      'openai/o1-mini': 0.003,                       // o1-mini pricing
+      'meta-llama/llama-3.2-90b-vision-instruct': 0.0009, // Current Llama pricing
+      'meta-llama/llama-3.1-405b-instruct': 0.005,  // Large model pricing
+      'mistralai/mistral-large-2407': 0.002,         // Current Mistral pricing
+      'google/gemini-pro-1.5-exp': 0.00125,          // Gemini experimental pricing
+      'deepseek/deepseek-chat': 0.00014,             // Budget option pricing
+      // Legacy fallbacks
+      'anthropic/claude-3.5-sonnet': 0.003,          // Legacy model fallback
+      'openai/gpt-4-turbo': 0.01,                    // Legacy model fallback
+      'openai/gpt-3.5-turbo': 0.0015                 // Legacy model fallback
     };
     
     const costPer1k = realModelCosts[model] || 0.002;
