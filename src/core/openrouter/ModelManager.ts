@@ -18,49 +18,69 @@ export class ModelManager {
   private initializeModelCapabilities(): void {
     const capabilities = [
       {
-        model: 'anthropic/claude-3.5-sonnet',
+        model: 'anthropic/claude-3.5-sonnet-20241022',
         capability: {
           strength: ['reasoning', 'analysis', 'code'],
           contextWindow: 200000,
           costTier: 'premium' as const,
-          speed: 'medium' as const,
-          specialties: ['complex reasoning', 'code analysis', 'writing']
+          speed: 'fast' as const,
+          specialties: ['complex reasoning', 'code analysis', 'writing', 'symphony orchestration']
         }
       },
       {
-        model: 'openai/gpt-4-turbo',
+        model: 'openai/gpt-4o',
         capability: {
-          strength: ['general', 'code', 'creative'],
+          strength: ['general', 'code', 'creative', 'multimodal'],
           contextWindow: 128000,
           costTier: 'premium' as const,
           speed: 'fast' as const,
-          specialties: ['general purpose', 'code generation', 'creative writing']
+          specialties: ['general purpose', 'code generation', 'creative writing', 'multimodal analysis']
         }
       },
       {
-        model: 'mistralai/mistral-large',
+        model: 'openai/o1-preview',
         capability: {
-          strength: ['code', 'reasoning', 'multilingual'],
-          contextWindow: 32000,
-          costTier: 'mid' as const,
-          speed: 'fast' as const,
-          specialties: ['code generation', 'multilingual', 'efficiency']
-        }
-      },
-      {
-        model: 'meta-llama/llama-3.1-405b',
-        capability: {
-          strength: ['reasoning', 'math', 'science'],
+          strength: ['reasoning', 'math', 'science', 'code'],
           contextWindow: 128000,
           costTier: 'premium' as const,
           speed: 'slow' as const,
-          specialties: ['complex reasoning', 'mathematical analysis', 'scientific tasks']
+          specialties: ['complex reasoning', 'mathematical analysis', 'scientific tasks', 'orchestra coordination']
         }
       },
       {
-        model: 'meta-llama/llama-3.1-70b',
+        model: 'openai/o1-mini',
         capability: {
-          strength: ['general', 'efficiency'],
+          strength: ['reasoning', 'code', 'efficiency'],
+          contextWindow: 128000,
+          costTier: 'mid' as const,
+          speed: 'medium' as const,
+          specialties: ['fast reasoning', 'code analysis', 'cost-effective reasoning']
+        }
+      },
+      {
+        model: 'meta-llama/llama-3.2-90b-vision-instruct',
+        capability: {
+          strength: ['multimodal', 'vision', 'reasoning', 'code'],
+          contextWindow: 128000,
+          costTier: 'premium' as const,
+          speed: 'medium' as const,
+          specialties: ['vision analysis', 'multimodal reasoning', 'image understanding', 'visual code analysis']
+        }
+      },
+      {
+        model: 'meta-llama/llama-3.1-405b-instruct',
+        capability: {
+          strength: ['reasoning', 'math', 'science', 'code'],
+          contextWindow: 128000,
+          costTier: 'premium' as const,
+          speed: 'slow' as const,
+          specialties: ['complex reasoning', 'mathematical analysis', 'scientific tasks', 'large-scale orchestration']
+        }
+      },
+      {
+        model: 'meta-llama/llama-3.1-70b-instruct',
+        capability: {
+          strength: ['general', 'efficiency', 'code'],
           contextWindow: 128000,
           costTier: 'mid' as const,
           speed: 'medium' as const,
@@ -68,13 +88,33 @@ export class ModelManager {
         }
       },
       {
-        model: 'google/gemini-pro-1.5',
+        model: 'mistralai/mistral-large-2407',
+        capability: {
+          strength: ['code', 'reasoning', 'multilingual'],
+          contextWindow: 128000,
+          costTier: 'mid' as const,
+          speed: 'fast' as const,
+          specialties: ['code generation', 'multilingual', 'efficiency', 'rapid development']
+        }
+      },
+      {
+        model: 'google/gemini-pro-1.5-exp',
         capability: {
           strength: ['multimodal', 'reasoning', 'code'],
-          contextWindow: 1000000,
+          contextWindow: 2000000,
           costTier: 'mid' as const,
           speed: 'medium' as const,
-          specialties: ['multimodal', 'large context', 'versatile']
+          specialties: ['multimodal', 'massive context', 'versatile', 'long-form analysis']
+        }
+      },
+      {
+        model: 'deepseek/deepseek-chat',
+        capability: {
+          strength: ['code', 'reasoning', 'efficiency'],
+          contextWindow: 64000,
+          costTier: 'budget' as const,
+          speed: 'fast' as const,
+          specialties: ['code generation', 'efficient reasoning', 'cost-effective development']
         }
       }
     ];

@@ -43,7 +43,7 @@ class BackendEngineerAgent extends AgentWorkerBase {
 
   private async generateBackendCode(task: Task): Promise<string> {
     const response = await this.callOpenRouter({
-      model: 'anthropic/claude-3.5-sonnet',
+      model: 'openai/gpt-4o', // Using GPT-4o for backend engineering as per AgentPool mapping
       messages: [{
         role: 'system',
         content: `You are a Backend Engineer. Generate production-ready server code.

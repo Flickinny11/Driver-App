@@ -46,7 +46,7 @@ export class ConductorAgent {
     console.log('🎼 Symphony Conductor analyzing project requirements...');
 
     const response = await this.openRouterClient.getCompletionWithUsage({
-      model: 'anthropic/claude-3.5-sonnet',
+      model: 'anthropic/claude-3.5-sonnet-20241022',
       messages: [{
         role: 'system',
         content: `You are the master conductor for a Symphony of AI agents. 

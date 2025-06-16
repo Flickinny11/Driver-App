@@ -9,36 +9,35 @@ export class OpenRouterClient {
   private clients: Map<string, OpenAI> = new Map();
   private readonly BASE_URL = 'https://openrouter.ai/api/v1';
   private readonly supportedModels = [
-    // Latest Claude models
+    // Latest Claude models (2025 current)
     'anthropic/claude-3.5-sonnet-20241022',
     'anthropic/claude-3.5-haiku',
     'anthropic/claude-3-opus',
     
-    // Latest OpenAI models
+    // Latest OpenAI models (2025 current)
     'openai/gpt-4o',
-    'openai/gpt-4o-mini',
-    'openai/gpt-4-turbo',
     'openai/o1-preview',
     'openai/o1-mini',
+    'openai/gpt-4o-mini',
+    'openai/gpt-4-turbo',
     
-    // Latest Llama models
+    // Latest Llama models (2025 current)
     'meta-llama/llama-3.2-90b-vision-instruct',
-    'meta-llama/llama-3.2-11b-vision-instruct',
+    'meta-llama/llama-3.2-11b-vision-instruct', 
     'meta-llama/llama-3.1-405b-instruct',
     'meta-llama/llama-3.1-70b-instruct',
     'meta-llama/llama-3.1-8b-instruct',
     
-    // Latest Mistral models
+    // Latest Mistral models (2025 current)
     'mistralai/mistral-large-2407',
     'mistralai/codestral-mamba',
     'mistralai/mistral-nemo',
     
-    // Google models
+    // Google models (2025 current)
     'google/gemini-pro-1.5-exp',
     'google/gemini-flash-1.5',
     
-    // Other powerful models
-    'anthropic/claude-3.5-sonnet', // Keep legacy for compatibility
+    // Other current powerful models (2025)
     'qwen/qwen-2.5-72b-instruct',
     'deepseek/deepseek-chat',
     'x-ai/grok-beta'
