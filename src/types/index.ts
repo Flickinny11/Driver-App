@@ -457,6 +457,122 @@ export interface FileMap {
   [path: string]: string;
 }
 
+// iOS App Signing and Deployment Types
+export interface AppleAccount {
+  id: string;
+  email: string;
+  name: string;
+  teamId?: string;
+  teamName?: string;
+  isDeveloperAccount: boolean;
+  canSignApps: boolean;
+  certificates: SigningCertificate[];
+  connectedAt: Date;
+}
+
+export interface AppleTokens {
+  access_token: string;
+  refresh_token: string;
+  id_token: string;
+  expires_at: Date;
+}
+
+export type CertificateType = 
+  | 'IOS_DEVELOPMENT' 
+  | 'IOS_DISTRIBUTION' 
+  | 'MAC_APP_DISTRIBUTION' 
+  | 'personal';
+
+export interface SigningCertificate {
+  id: string;
+  name: string;
+  serialNumber: string;
+  type: CertificateType;
+  expiresAt: Date;
+  canRenew: boolean;
+  isActive: boolean;
+}
+
+export interface ProvisioningProfile {
+  id: string;
+  name: string;
+  bundleId: string;
+  content: string;
+  expiresAt: Date;
+  devices: string[];
+  type: 'development' | 'distribution' | 'ad-hoc' | 'enterprise';
+}
+
+export interface SigningInfo {
+  bundleId: string;
+  teamId: string;
+  certificate: SigningCertificate;
+  profile: ProvisioningProfile;
+}
+
+export interface XcodeProject {
+  id: string;
+  name: string;
+  path: string;
+  bundleId: string;
+  version: string;
+  scheme: string;
+  infoPlist: string;
+  pbxproj: string;
+  entitlements: string;
+  iconSet: IconSet;
+  signingInfo: SigningInfo;
+}
+
+export interface SignedApp {
+  ipa: {
+    url: string;
+    content: ArrayBuffer;
+  };
+  manifest: string;
+  buildId: string;
+  signedAt: Date;
+}
+
+export interface OTADeployment {
+  installUrl: string;
+  landingUrl: string;
+  manifestUrl: string;
+  ipaUrl: string;
+  expiresAt: Date;
+  qrCode: string;
+}
+
+export type InstallStatus = 
+  | 'ready' 
+  | 'building' 
+  | 'signing' 
+  | 'deploying' 
+  | 'ready-to-install' 
+  | 'error';
+
+export interface IOSCapability {
+  name: string;
+  identifier: string;
+  required: boolean;
+  description: string;
+}
+
+export interface BuildArtifact {
+  ipa: {
+    url: string;
+    size: number;
+  };
+  manifest: string;
+  logs: string[];
+}
+
+export interface WrapperOptions {
+  usesWebView: boolean;
+  localContent: boolean;
+  offlineCapable: boolean;
+}
+
 export interface Bundle {
   html: string;
   css: string;
