@@ -20,8 +20,8 @@ export class ConductorAgent {
   protected taskQueue: TaskQueue;
   protected memoryBridge: SharedMemoryBridge;
   protected openRouterClient?: OpenRouterClient;
-  private activeAgents: Map<string, SpecializedAgent> = new Map();
-  private agentStates: Map<string, AgentState> = new Map();
+  protected activeAgents: Map<string, SpecializedAgent> = new Map();
+  protected agentStates: Map<string, AgentState> = new Map();
 
   constructor(apiKey?: string) {
     this.agentPool = new AgentPool(15); // Symphony = 15 agents max
@@ -211,7 +211,7 @@ export class ConductorAgent {
   /**
    * Launch a specialized agent for a specific task
    */
-  private async launchAgent(agent: SpecializedAgent, task: Task): Promise<void> {
+  protected async launchAgent(agent: SpecializedAgent, task: Task): Promise<void> {
     console.log(`🤖 Launching ${agent.type} agent for task: ${task.title}`);
 
     // Create worker for agent
@@ -554,7 +554,7 @@ export class ConductorAgent {
   /**
    * Emit events for UI updates
    */
-  private emitEvent(type: string, data: any): void {
+  protected emitEvent(type: string, data: any): void {
     const event = new CustomEvent(`symphony:${type}`, { detail: data });
     document.dispatchEvent(event);
   }
