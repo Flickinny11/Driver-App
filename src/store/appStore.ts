@@ -10,7 +10,9 @@ import type {
   SubscriptionTier, 
   AgentStatus,
   Toast,
-  LoadingState
+  LoadingState,
+  AppleAccount,
+  OTADeployment
 } from '@/types';
 
 /**
@@ -53,6 +55,10 @@ interface AppState {
   connectionStatus: 'connecting' | 'connected' | 'disconnected' | 'error';
   lastPing: Date | null;
 
+  // iOS state
+  appleAccount: AppleAccount | null;
+  iosDeployments: OTADeployment[];
+
   // Actions
   setUser: (user: User | null) => void;
   setAuthenticated: (authenticated: boolean) => void;
@@ -92,6 +98,11 @@ interface AppState {
   // WebSocket actions
   setConnectionStatus: (status: 'connecting' | 'connected' | 'disconnected' | 'error') => void;
   updateLastPing: () => void;
+
+  // iOS actions
+  setAppleAccount: (account: AppleAccount | null) => void;
+  addIOSDeployment: (deployment: OTADeployment) => void;
+  removeIOSDeployment: (deploymentId: string) => void;
 
   // Utility actions
   reset: () => void;
@@ -134,6 +145,10 @@ export const useAppStore = create<AppState>()(
         isConnected: false,
         connectionStatus: 'disconnected',
         lastPing: null,
+
+        // iOS state
+        appleAccount: null,
+        iosDeployments: [],
 
         // User actions
         setUser: (user) => set((state) => {
@@ -377,6 +392,22 @@ export const useAppStore = create<AppState>()(
           state.lastPing = new Date();
         }),
 
+        // iOS actions
+        setAppleAccount: (account) => set((state) => {
+          state.appleAccount = account;
+        }),
+
+        addIOSDeployment: (deployment) => set((state) => {
+          state.iosDeployments.push(deployment);
+        }),
+
+        removeIOSDeployment: (deploymentId) => set((state) => {
+          const index = state.iosDeployments.findIndex(d => d.installUrl.includes(deploymentId));
+          if (index > -1) {
+            state.iosDeployments.splice(index, 1);
+          }
+        }),
+
         // Utility actions
         reset: () => set((state) => {
           // Reset to initial state but preserve user and theme
@@ -411,7 +442,11 @@ export const useAppStore = create<AppState>()(
 
             isConnected: false,
             connectionStatus: 'disconnected' as const,
-            lastPing: null
+            lastPing: null,
+
+            // Reset iOS state
+            appleAccount: null,
+            iosDeployments: []
           });
         }),
 
@@ -488,6 +523,10 @@ export const useConnection = () => useAppStore((state) => ({
   isConnected: state.isConnected,
   status: state.connectionStatus,
   lastPing: state.lastPing
+}));
+export const useIOS = () => useAppStore((state) => ({
+  account: state.appleAccount,
+  deployments: state.iosDeployments
 }));
 
 // Subscribe to state changes for debugging in development

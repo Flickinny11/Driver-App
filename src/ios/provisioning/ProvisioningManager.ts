@@ -98,7 +98,7 @@ export class ProvisioningManager {
     certificate: SigningCertificate
   ): Promise<ProvisioningProfile> {
     // First, register the App ID
-    const appIdResponse = await this.registerAppId(bundleId, account);
+    await this.registerAppId(bundleId, account);
     
     // Get registered devices
     const devices = await this.getRegisteredDevices(account);
@@ -131,7 +131,7 @@ export class ProvisioningManager {
    * Create a personal provisioning profile (wildcard)
    */
   private async createPersonalProfile(
-    bundleId: string,
+    _bundleId: string,
     certificate: SigningCertificate
   ): Promise<ProvisioningProfile> {
     // Personal profiles use wildcard bundle ID
@@ -180,7 +180,7 @@ export class ProvisioningManager {
   /**
    * Get registered devices for the developer account
    */
-  private async getRegisteredDevices(account: AppleAccount): Promise<string[]> {
+  private async getRegisteredDevices(_account: AppleAccount): Promise<string[]> {
     // In a real implementation, this would fetch from App Store Connect API
     // GET /v1/devices
     

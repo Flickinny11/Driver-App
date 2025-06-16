@@ -119,7 +119,7 @@ export class AppleAuthManager {
   /**
    * Check if account has Apple Developer Program access
    */
-  private async checkDeveloperStatus(tokens: AppleTokens): Promise<boolean> {
+  private async checkDeveloperStatus(_tokens: AppleTokens): Promise<boolean> {
     try {
       // In a real implementation, this would call App Store Connect API
       // For now, we'll simulate the check
@@ -212,7 +212,7 @@ export class AppleAuthManager {
   /**
    * Get account information from tokens
    */
-  private async getAccountInfo(tokens: AppleTokens): Promise<AppleAccount> {
+  private async getAccountInfo(_tokens: AppleTokens): Promise<AppleAccount> {
     // In a real implementation, this would decode the ID token
     // and possibly make additional API calls
     

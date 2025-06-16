@@ -176,7 +176,7 @@ export class CertificateManager {
   /**
    * Generate a private key for certificate signing
    */
-  private async generatePrivateKey(): Promise<CryptoKey> {
+  private async generatePrivateKey(): Promise<CryptoKeyPair> {
     return await crypto.subtle.generateKey(
       {
         name: 'RSA-PSS',
@@ -192,11 +192,11 @@ export class CertificateManager {
   /**
    * Create a Certificate Signing Request (CSR)
    */
-  private async createCSR(privateKey: CryptoKey, account: AppleAccount): Promise<string> {
+  private async createCSR(privateKey: CryptoKeyPair, account: AppleAccount): Promise<string> {
     // In a real implementation, this would create a proper PKCS#10 CSR
     // For now, we'll return a mock CSR
     
-    const publicKey = await this.exportPublicKey(privateKey);
+    const publicKey = await this.exportPublicKey(privateKey.publicKey);
     
     return btoa(JSON.stringify({
       commonName: account.email,
@@ -211,9 +211,9 @@ export class CertificateManager {
    * Submit CSR to Apple and get certificate
    */
   private async submitCSRToApple(
-    csr: string, 
+    _csr: string, 
     type: CertificateType, 
-    account: AppleAccount
+    _account: AppleAccount
   ): Promise<SigningCertificate> {
     // In a real implementation, this would use App Store Connect API
     // POST /v1/certificates with the CSR
@@ -237,13 +237,13 @@ export class CertificateManager {
    * Create a self-signed certificate for personal signing
    */
   private async createSelfSignedCertificate(
-    privateKey: CryptoKey,
+    privateKey: CryptoKeyPair,
     account: AppleAccount
   ): Promise<string> {
     // In a real implementation, this would create a proper X.509 certificate
     // For now, we'll return a mock certificate
     
-    const publicKey = await this.exportPublicKey(privateKey);
+    const publicKey = await this.exportPublicKey(privateKey.publicKey);
     
     return btoa(JSON.stringify({
       subject: {
@@ -261,18 +261,16 @@ export class CertificateManager {
   /**
    * Export private key for storage
    */
-  private async exportPrivateKey(privateKey: CryptoKey): Promise<string> {
-    const exported = await crypto.subtle.exportKey('pkcs8', privateKey);
+  private async exportPrivateKey(privateKey: CryptoKeyPair): Promise<string> {
+    const exported = await crypto.subtle.exportKey('pkcs8', privateKey.privateKey);
     return btoa(String.fromCharCode(...new Uint8Array(exported)));
   }
 
   /**
    * Export public key
    */
-  private async exportPublicKey(privateKey: CryptoKey): Promise<string> {
-    // Extract public key from private key
-    const keyPair = privateKey as any; // Type assertion for demo
-    const exported = await crypto.subtle.exportKey('spki', keyPair);
+  private async exportPublicKey(publicKey: CryptoKey): Promise<string> {
+    const exported = await crypto.subtle.exportKey('spki', publicKey);
     return btoa(String.fromCharCode(...new Uint8Array(exported)));
   }
 
