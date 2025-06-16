@@ -8,7 +8,8 @@ export type ViewType =
   | 'knowledge'
   | 'vision'
   | 'multi-panel'
-  | 'orchestra';
+  | 'orchestra'
+  | 'live-preview';
 
 export type SubscriptionTier = 'free' | 'pro' | 'enterprise';
 
@@ -439,4 +440,126 @@ export interface Config {
       prefetchRoutes: boolean;
     };
   };
+}
+
+// Preview System Types
+export type WindowType = 'desktop' | 'mobile' | 'tablet';
+export type Framework = 'react' | 'vue' | 'angular' | 'svelte' | 'vanilla';
+
+export interface PreviewWindow {
+  id: string;
+  type: WindowType;
+  active: boolean;
+  showConsole?: boolean;
+}
+
+export interface FileMap {
+  [path: string]: string;
+}
+
+export interface Bundle {
+  html: string;
+  css: string;
+  js: string;
+  files: FileMap;
+  size: number;
+}
+
+export interface HMRUpdate {
+  id: string;
+  newModule: any;
+  type: 'hot' | 'reload';
+}
+
+export interface ElementInfo {
+  selector: string;
+  xpath: string;
+  bounds: DOMRect;
+  tagName: string;
+  attributes: Record<string, string>;
+}
+
+export interface InterjectComment {
+  id: string;
+  windowId: string;
+  element: {
+    selector: string;
+    xpath: string;
+    bounds: DOMRect;
+    tagName: string;
+    attributes: Record<string, string>;
+  };
+  comment: string;
+  voiceNote?: Blob;
+  screenshot: string;
+  timestamp: Date;
+  status: 'pending' | 'addressed' | 'dismissed';
+}
+
+// App Delivery Types
+export interface CreatedApp {
+  id: string;
+  name: string;
+  shortName?: string;
+  description: string;
+  url: string;
+  icon: string;
+  size: number;
+  files: number;
+  category: 'web' | 'mobile' | 'game' | 'tool';
+  buildProgress: number;
+  version: string;
+  opens: number;
+  screenshot: string;
+  installable: boolean;
+  manifest: PWAManifest;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface PWAManifest {
+  name: string;
+  short_name: string;
+  description: string;
+  start_url: string;
+  display: 'standalone' | 'fullscreen' | 'minimal-ui' | 'browser';
+  theme_color: string;
+  background_color: string;
+  icons: IconSet;
+}
+
+export interface Icon {
+  dataUrl: string;
+  size: number;
+}
+
+export interface IconSet {
+  [size: string]: Icon;
+}
+
+export interface AppPackageResult {
+  id: string;
+  name: string;
+  url: string;
+  icon: string;
+  size: number;
+  files: number;
+  createdAt: Date;
+  manifest: PWAManifest;
+  installable: boolean;
+}
+
+// Console output types
+export interface ConsoleMessage {
+  type: 'log' | 'warn' | 'error' | 'info';
+  args: string[];
+  timestamp: Date;
+}
+
+export interface PreviewError {
+  message: string;
+  filename?: string;
+  line?: number;
+  column?: number;
+  stack?: string;
 }

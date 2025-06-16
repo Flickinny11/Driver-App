@@ -11,7 +11,8 @@ import {
   Music,
   Settings,
   Menu,
-  X
+  X,
+  Play
 } from 'lucide-react';
 import { useAppStore } from '@/store/appStore';
 import { cn } from '@/lib/utils';
@@ -26,6 +27,7 @@ export const Sidebar = () => {
     { path: '/', icon: MessageSquare, label: 'Code Chat', description: 'AI-powered coding assistant' },
     { path: '/history', icon: History, label: 'History', description: 'Conversation history' },
     { path: '/creations', icon: Folder, label: 'Creations', description: 'Your projects and files' },
+    { path: '/preview', icon: Play, label: 'Live Preview', description: 'Real-time app preview' },
     { path: '/search', icon: Search, label: 'Search', description: 'Search across all content' },
     { path: '/knowledge', icon: Brain, label: 'Knowledge', description: 'Knowledge base and docs' },
     { path: '/vision', icon: Eye, label: 'Vision', description: 'Visual analysis and generation' },
