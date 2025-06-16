@@ -2,7 +2,6 @@ import React from 'react';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
-import { createSampleApps } from './sampleData';
 import type { CreatedApp } from '@/types';
 
 interface CreatedAppState {
@@ -20,7 +19,7 @@ interface CreatedAppState {
   setSortBy: (sortBy: 'newest' | 'largest' | 'mostUsed') => void;
   setLoading: (loading: boolean) => void;
   incrementOpens: (id: string) => void;
-  initializeWithSampleData: () => void;
+  // Real production app store - no sample data methods
 }
 
 export const useCreatedAppStore = create<CreatedAppState>()(
@@ -75,12 +74,8 @@ export const useCreatedAppStore = create<CreatedAppState>()(
         }
       }),
 
-      initializeWithSampleData: () => set((state) => {
-        if (!state.initialized) {
-          state.apps = createSampleApps();
-          state.initialized = true;
-        }
-      })
+      // Real production app store - no sample data initialization
+      // Apps are created through real user interactions and AI generation
     })),
     {
       name: 'driver-created-apps-store',
@@ -92,9 +87,10 @@ export const useCreatedAppStore = create<CreatedAppState>()(
       }),
       onRehydrateStorage: () => {
         return (state) => {
-          // Initialize with sample data if not already done
-          if (state && !state.initialized) {
-            state.initializeWithSampleData();
+          // Real production app - no automatic data initialization
+          // Apps are loaded from real user data and API calls
+          if (state) {
+            console.log('User app data loaded from storage');
           }
         };
       }
@@ -102,13 +98,8 @@ export const useCreatedAppStore = create<CreatedAppState>()(
   )
 );
 
-// Initialize store on first load
-if (typeof window !== 'undefined') {
-  const { initializeWithSampleData, initialized } = useCreatedAppStore.getState();
-  if (!initialized) {
-    initializeWithSampleData();
-  }
-}
+// Real production app - no automatic sample data loading
+// Apps are created through real user interactions
 
 // Selectors
 export const useCreatedApps = () => {

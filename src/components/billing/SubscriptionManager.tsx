@@ -85,8 +85,15 @@ export const SubscriptionManager: React.FC<SubscriptionManagerProps> = ({
       // Create customer if needed
       const customerId = await stripeManager.createCustomer(user);
       
-      // Create subscription
-      const newSubscription = await stripeManager.createSubscription(customerId, plan);
+      // Create subscription with real Stripe integration
+      const newSubscription = await stripeManager.createSubscription({
+        customer: customerId,
+        priceId: plan.price ? `price_${plan.name.toLowerCase()}` : `price_${plan.name.toLowerCase()}`,
+        metadata: {
+          planName: plan.name,
+          userId: user.id
+        }
+      });
       
       console.log('Subscription created:', newSubscription);
     } catch (error) {

@@ -10,6 +10,15 @@ interface ImportMetaEnv {
   readonly VITE_ENABLE_BETA_FEATURES: string
   readonly VITE_DEV_MOCK_WEBSOCKET: string
   readonly VITE_DEV_VERBOSE_LOGGING: string
+  readonly VITE_GOOGLE_CLIENT_ID: string
+  readonly VITE_GOOGLE_CLIENT_SECRET: string
+  readonly VITE_GOOGLE_REDIRECT_URI: string
+  readonly VITE_APPLE_KEY_ID: string
+  readonly VITE_APPLE_PRIVATE_KEY: string
+  readonly VITE_STRIPE_PUBLISHABLE_KEY: string
+  readonly VITE_STRIPE_SECRET_KEY: string
+  readonly BASE_URL: string
+  readonly DEV: boolean
 }
 
 interface ImportMeta {

@@ -228,18 +228,20 @@ export class RealDeviceTest {
         validation.validations.push(iosValidation);
       } else if (platformDeployment.platform === 'android') {
         const androidValidation = await this.validateAndroidInstallation({
+          id: deployment.appId,
           appId: deployment.appId,
           packageName: platformDeployment.packageName!,
-          apkUrl: platformDeployment.directUrl,
-          installUrl: platformDeployment.directUrl,
-          landingUrl: platformDeployment.landingUrl,
-          qrCode: platformDeployment.qrCode,
-          size: 0, // Size not available in platform deployment
-          versionCode: platformDeployment.versionCode!,
           versionName: '1.0.0',
-          buildType: 'release',
+          versionCode: platformDeployment.versionCode!,
+          apkUrl: platformDeployment.directUrl,
+          apkSize: 0, // Size not available in platform deployment
+          installationGuide: platformDeployment.landingUrl,
+          qrCode: platformDeployment.qrCode,
+          landingUrl: platformDeployment.landingUrl,
+          manifestUrl: `${platformDeployment.directUrl.replace('.apk', '')}/manifest.json`,
           deployedAt: platformDeployment.deployedAt,
-          expiresAt: platformDeployment.expiresAt
+          expiresAt: platformDeployment.expiresAt,
+          isProduction: true
         });
         validation.validations.push(androidValidation);
       }

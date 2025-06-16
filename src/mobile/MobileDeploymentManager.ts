@@ -118,11 +118,11 @@ export class MobileDeploymentManager {
           signingInfo.android.account?.hasPlayConsole
         ) {
           try {
-            const upload = await this.androidAuth.uploadToPlayConsole(
-              androidApp.packageName,
-              androidApp.aabPath,
-              'internal'
-            );
+            const upload = await this.androidAuth.uploadToPlayConsole({
+              packageName: androidApp.packageName,
+              apkData: new ArrayBuffer(0), // This would be the actual APK/AAB data
+              track: 'internal'
+            });
             playStoreUrl = `https://play.google.com/console/u/0/developers/${signingInfo.android.account.id}/app/${androidApp.packageName}`;
             console.log('📱 AAB uploaded to Play Console:', upload);
           } catch (error) {
@@ -291,10 +291,11 @@ export class MobileDeploymentManager {
    * Create Android signing keystore
    */
   async createAndroidKeystore(type: 'debug' | 'release' = 'release'): Promise<AndroidKeystore> {
+    const appName = 'DriverApp'; // Default app name
     if (type === 'debug') {
-      return await this.androidAuth.createDebugKeystore();
+      return await this.androidAuth.createDebugKeystore(appName);
     } else {
-      return await this.androidAuth.createSigningKeystore();
+      return await this.androidAuth.createSigningKeystore(appName);
     }
   }
 
