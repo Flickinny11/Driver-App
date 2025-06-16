@@ -167,6 +167,42 @@ export class OpenRouterClient {
   }
 
   /**
+   * Get a completion with full response data including usage
+   */
+  async getCompletionWithUsage(options: {
+    model: string;
+    messages: Array<{ role: string; content: string }>;
+    temperature?: number;
+    max_tokens?: number;
+    signal?: AbortSignal;
+  }): Promise<{ content: string; usage: { total_tokens: number } }> {
+    const client = this.clients.get(options.model);
+    if (!client) {
+      throw new Error(`Model ${options.model} not initialized`);
+    }
+
+    try {
+      const response = await client.chat.completions.create(
+        {
+          model: options.model,
+          messages: options.messages as any,
+          temperature: options.temperature || 0.7,
+          max_tokens: options.max_tokens || 4096
+        },
+        { signal: options.signal }
+      );
+
+      return {
+        content: response.choices[0]?.message?.content || '',
+        usage: { total_tokens: response.usage?.total_tokens || 0 }
+      };
+    } catch (error) {
+      console.error(`Error in getCompletionWithUsage for model ${options.model}:`, error);
+      throw error;
+    }
+  }
+
+  /**
    * Get model information
    */
   async getModelInfo(model: string): Promise<any> {
